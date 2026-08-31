@@ -37,6 +37,8 @@ integrations.
 | `SATCHEL_TARGET_FIELD_TYPE` | A target field has the wrong type. | Use the documented field shape for that target. |
 | `SATCHEL_TARGET_UNKNOWN` | A target has no adapter. | Remove it or install/add an adapter that supports it. |
 | `SATCHEL_TARGET_EXPERIMENTAL_UNMARKED` | Experimental target is enabled without `experimental: true`. | Mark it experimental or disable it. |
+| `SATCHEL_TARGET_NOT_APPLICABLE_TYPE` | `notApplicable` is present but is not a non-empty string. | Write a concise reason or remove the field. |
+| `SATCHEL_TARGET_NOT_APPLICABLE_ENABLED` | An enabled target is marked not applicable. | Disable the target or remove `notApplicable`. |
 | `SATCHEL_MARKETPLACE_MISSING` | `satchel check --release` found an enabled target with no marketplace block. | Add `targets.<target>.marketplace` or disable the target. |
 | `SATCHEL_MARKETPLACE_SOURCE_MISSING` | `satchel check --release` found a marketplace without a source. | Add a remote marketplace source. |
 | `SATCHEL_MARKETPLACE_LOCAL_SOURCE` | Marketplace source is local-only. | Use a remote GitHub repo, Git URL, or HTTP URL before release. |
@@ -49,6 +51,8 @@ integrations.
 | `SATCHEL_ANTHROPIC_BRAND_IN_NAME` | Connector naming includes a reserved Anthropic brand term. | Choose a connector name without the reserved brand term. |
 | `SATCHEL_COWORK_MCP_NOT_REMOTE` | Cowork is enabled with a local command-based MCP server. | Configure `targets.cowork.connector.mcpServerUrl` for the deployed server. |
 | `SATCHEL_COWORK_MCP_NOT_HTTPS` | A Cowork connector MCP URL does not use HTTPS. | Use the deployed server's HTTPS endpoint. |
+| `SATCHEL_COWORK_FIELD_MISSING` | Required Cowork developer, icon, or app metadata is missing. | Add the named field under `targets.cowork`. |
+| `SATCHEL_COWORK_ACCENT_COLOR_INVALID` | Cowork `accentColor` is not a CSS hex color. | Use a value such as `#e5a82f`. |
 | `SATCHEL_PATH_TYPE` | A path field is not a string. | Use a relative path string. |
 | `SATCHEL_PATH_INVALID` | A target path is absolute or escapes the package root. | Use a relative path inside the package. |
 | `SATCHEL_SKILLS_EMPTY` | The skills directory has no skill folders. | Add `skills/<name>/SKILL.md` or remove the component. |

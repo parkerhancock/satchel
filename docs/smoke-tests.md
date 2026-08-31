@@ -38,7 +38,7 @@ uv run satchel smoke . --host
 | Claude | Runs `claude plugin validate <package>` when `claude` is installed. |
 | Codex | Uses a structural fallback until a stable non-mutating validator is exposed. |
 | GitHub Copilot | Uses a structural fallback until a stable non-mutating validator is available. |
-| Antigravity | Uses a structural fallback while the target remains experimental. |
+| Antigravity | Runs `agy plugin validate <generated-package>` when `agy` is installed. |
 
 Warnings from unavailable host validators do not fail the build. Host validator
 errors do fail the build.
@@ -56,7 +56,12 @@ uv run satchel pack . --target claude --release
 
 `--release` adds remote marketplace-source checks before the archive is written.
 `--host` can be combined with `pack` when local host validators are installed.
-The source package is not mutated.
+The source package is not mutated. In Git repositories, the archive contains
+tracked and unignored package files, including implementation code, and
+regenerates the selected target in a clean copy. Patch-mode marketplace files
+are preserved because they may contain host-owned metadata. Outside Git,
+Satchel copies the package tree while excluding its built-in cache, build, and
+environment paths.
 
 ## Manual Release Smoke
 

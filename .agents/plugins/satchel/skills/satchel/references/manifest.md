@@ -23,8 +23,8 @@ inside the package root. Supported components are `skills`, `mcp`, `hooks`,
 Targets live under `targets`. The current adapters are `codex`, `claude`,
 `copilot`, `cowork`, `chatgpt`, `anthropic`, and experimental `antigravity`.
 Use `enabled: false` with a non-empty `notApplicable` reason when a target's
-distribution model does not apply to the package. Do not use `notApplicable`
-on an enabled target.
+distribution model does not apply to the package. Reserve `notApplicable` for
+disabled targets.
 
 Codex output:
 
@@ -81,13 +81,21 @@ targets:
       outline: ./assets/outline.png
       color: ./assets/color.png
     accentColor: "#e5a82f"
-    connector:
-      displayName: My Connector
-      mcpServerUrl: https://example.com/mcp
 ```
 
 The Microsoft 365 manifest requires developer metadata, 32x32 outline and
-192x192 color PNG icons, and an accent color even for a skill-only package.
+192x192 color PNG icons, and an accent color even for a skill-only package. To
+add an optional connector, declare a separately hosted HTTPS MCP service:
+
+```yaml
+targets:
+  cowork:
+    connector:
+      displayName: My Connector
+      description: Public data research tools.
+      mcpServerUrl: https://example.com/mcp
+      authType: None
+```
 
 ChatGPT release metadata:
 
@@ -124,9 +132,21 @@ Experimental Antigravity output:
 ```yaml
 targets:
   antigravity:
-    enabled: false
+    enabled: true
     experimental: true
     output: ./.agents/plugins/my-plugin
+```
+
+Remote-only targets that do not apply to a repository-backed package:
+
+```yaml
+targets:
+  chatgpt:
+    enabled: false
+    notApplicable: This package has no remote MCP service.
+  anthropic:
+    enabled: false
+    notApplicable: This package has no remote MCP service.
 ```
 
 Marketplace `source` values are target-specific. Codex, Claude, and Copilot use
@@ -137,6 +157,6 @@ App Manifest whose connector also references a remote HTTPS MCP server. Use
 metadata that should survive generation. Keep Antigravity marked experimental
 until the generated package has been tested against the current host.
 
-Prefer `docs/schema.md` for the human guide, `docs/schema-reference.md` for the
-generated field reference, and `schemas/satchel.schema.json` for editor
-integration.
+In a Satchel source checkout, `docs/schema.md` is the full human guide,
+`docs/schema-reference.md` is the generated field reference, and
+`schemas/satchel.schema.json` supports editor integration.

@@ -38,6 +38,19 @@ Shared source components live under `components` in `satchel.yaml`.
 | `rules` | Rule files for Antigravity output. |
 | `apps` | Codex app config. |
 
+## Distribution Models
+
+- Codex, Claude, Copilot, Cowork, and Antigravity are repository-backed package
+  targets. A target archive can contain shared skills, implementation code,
+  supporting files, and that target's generated output.
+- ChatGPT and Anthropic are remote-service metadata targets. Enable them only
+  when the package describes an already deployed HTTPS MCP service.
+- For an intentionally unsupported distribution model, set `enabled: false`
+  with a non-empty `notApplicable` reason. Reserve `notApplicable` for disabled
+  targets.
+- Cowork may be skill-only. It still requires developer metadata, 32x32 outline
+  and 192x192 color PNG icons, and an accent color; a connector is optional.
+
 ## Commands
 
 | Command | Use |
@@ -87,7 +100,9 @@ unknown fields on the package plugin entry, and unknown fields in plugin
 - structural output checks for enabled targets;
 - marketplace release checks for Codex, Claude, and Copilot;
 - release metadata checks for ChatGPT and Anthropic;
-- remote HTTPS connector checks for Cowork;
+- Cowork required app metadata and PNG icon checks;
+- remote HTTPS connector checks when Cowork declares a connector;
+- disabled-target `notApplicable` invariants;
 - optional host validators, currently including `claude plugin validate` and
   `agy plugin validate` when available through the host validator registry.
 - upstream standards drift when `satchel standards check` is run against
@@ -101,6 +116,21 @@ Treat generated target manifests and marketplace files as build outputs. Change
 `satchel.yaml`, shared components, and target config, then rerun
 `satchel generate`.
 
-Target archive builds do not mutate the source package. `satchel pack` copies
-the package to a temporary directory, removes generated outputs in that copy,
-regenerates only the selected target, validates it, then writes a ZIP archive.
+Target archive builds do not mutate the source package. In a Git repository,
+`satchel pack` copies tracked and unignored package files to a temporary
+directory, removes replaceable generated root outputs in that copy, regenerates
+the selected target, validates it, then writes a ZIP archive. Patch-mode
+marketplace files are preserved because they may contain host-owned metadata.
+Outside Git, Satchel copies the package tree while excluding its built-in
+cache, build, and environment paths. Implementation code is therefore included
+alongside skills; the archive is not limited to generated manifests.
+
+## Host Validators and Standards
+
+- Claude uses `claude plugin validate <package>` when available.
+- Antigravity uses `agy plugin validate <generated-package>` when available.
+- Codex and Copilot use structural fallbacks because their current CLI surfaces
+  do not expose a stable non-mutating validator.
+- `satchel standards check` compares official host-documentation sources with
+  committed snapshots. Use `--update` only after review and
+  `--include-commands` to add configured local CLI help probes.

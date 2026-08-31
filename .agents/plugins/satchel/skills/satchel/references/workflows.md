@@ -48,11 +48,17 @@ For a repo that is itself a plugin:
 
 1. Add `satchel.yaml` at the repo root.
 2. Add `skills/<repo-name>/SKILL.md`.
-3. Configure generated manifests and marketplace paths.
-4. Generate outputs with `satchel generate .`.
-5. Add a regression test that `stale_outputs(build_outputs(...))` is empty.
-6. Validate with `satchel check . --host` and `satchel smoke . --host` when
+3. Configure repository-backed targets for the hosts that can consume the
+   package. Keep remote-only targets disabled with a `notApplicable` reason
+   unless the repository also represents a deployed HTTPS MCP service.
+4. Configure generated manifests and marketplace paths.
+5. Generate outputs with `satchel generate .`.
+6. Add a regression test that `stale_outputs(build_outputs(...))` is empty.
+7. Validate with `satchel check . --host` and `satchel smoke . --host` when
    host CLIs are available.
+8. Pack every applicable repository-backed target and inspect that the archive
+   contains the skill, implementation code, and selected generated target
+   output.
 
 ## Before Release
 
@@ -64,7 +70,10 @@ For a repo that is itself a plugin:
 - Run `satchel pack . --target <target> --release` for each release archive
   target.
 - Run release checks for enabled ChatGPT and Anthropic metadata targets.
-- Verify enabled Cowork connectors against their remote HTTPS MCP endpoint.
+- Confirm Cowork developer metadata, PNG icon dimensions, and accent color;
+  verify the remote HTTPS MCP endpoint only when a connector is declared.
+- Confirm ChatGPT and Anthropic are either configured for a real remote HTTPS
+  MCP service or disabled with a `notApplicable` reason.
 - Run `claude plugin validate .` when Claude Code is installed.
 - Confirm the Codex marketplace path and source type match the intended install
   flow.

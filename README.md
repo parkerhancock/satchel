@@ -25,10 +25,10 @@
   <a href="#release-readiness">Release Readiness</a>
 </p>
 
-> Status: open-source alpha. Satchel generates and checks Codex, Claude, and
-> GitHub Copilot plugin manifests and marketplace files. It also supports
-> Microsoft 365 Copilot Cowork manifests, ChatGPT app and Anthropic Connectors
-> Directory release artifacts, and experimental Antigravity packages.
+> Status: open-source alpha. Satchel generates and checks Codex, Claude Code,
+> GitHub Copilot CLI, and Microsoft 365 Copilot Cowork packages. It also
+> supports ChatGPT app and Anthropic Connectors Directory release metadata,
+> plus experimental Antigravity packages.
 >
 > Note: the `claude` target builds a Claude Code **plugin**; the `anthropic`
 > target builds an Anthropic **Connectors Directory** submission (a remote MCP
@@ -54,7 +54,7 @@ uvx --from satchel-agent satchel check my-plugin
 uvx --from satchel-agent satchel smoke my-plugin
 ```
 
-The generated files live at:
+The starter enables Codex, Claude, and Copilot. Its generated files live at:
 
 ```text
 my-plugin/.codex-plugin/plugin.json
@@ -62,6 +62,10 @@ my-plugin/.claude-plugin/plugin.json
 my-plugin/.github/plugin/plugin.json
 my-plugin/.github/plugin/marketplace.json
 ```
+
+Enable additional targets in `satchel.yaml`. Cowork needs Microsoft app
+metadata and PNG icons, while ChatGPT and Anthropic require an already deployed
+remote HTTPS MCP service. See the [schema guide](docs/schema.md).
 
 ## Plugin Install
 
@@ -94,16 +98,28 @@ copilot plugin marketplace add parkerhancock/satchel
 copilot plugin install satchel@satchel-marketplace
 ```
 
+Microsoft 365 Copilot Cowork has no marketplace command in Satchel. Build its
+target archive with:
+
+```bash
+satchel pack . --target cowork --release
+```
+
+The archive contains the shared Satchel skill and repository code alongside
+the generated Unified App Manifest. Satchel does not automate tenant
+installation; use the generated manifest and assets in the host-controlled
+Microsoft 365 packaging and publication flow appropriate to the tenant.
+
 Antigravity support is experimental. The adapter can generate a local package
 layout under `.agents/plugins/`, but install and marketplace behavior should be
 verified against the current Antigravity CLI or IDE before relying on it.
 
 ### Self-hosting matrix
 
-Satchel's own `satchel.yaml` packages the Satchel skill and code for Codex,
-Claude Code, GitHub Copilot CLI, Microsoft 365 Copilot Cowork, and experimental
-Antigravity. Cowork is a skill-only package and does not declare an MCP
-connector.
+Satchel's own `satchel.yaml` packages the Satchel skill and repository code for
+Codex, Claude Code, GitHub Copilot CLI, Microsoft 365 Copilot Cowork, and
+experimental Antigravity. Cowork is a skill-only host output and does not
+declare an MCP connector.
 
 The ChatGPT App and Anthropic Connectors Directory channels are explicitly
 not applicable to Satchel itself because those channels publish remote MCP
@@ -176,9 +192,10 @@ Write machine-readable diagnostics:
 uv run satchel check my-plugin --json
 ```
 
-See `docs/diagnostics.md` for diagnostic codes and remediation guidance.
-See `docs/marketplaces.md` for marketplace installability workflows.
-See `docs/host-validators.md` for host validator behavior.
+See the [diagnostic reference](docs/diagnostics.md) for diagnostic codes and
+remediation guidance, the [marketplace guide](docs/marketplaces.md) for
+installability workflows, and the [host validator guide](docs/host-validators.md)
+for host-aware checks.
 
 Run a clean-copy smoke test:
 
@@ -193,6 +210,11 @@ Build a target-specific archive without mutating the source tree:
 uv run satchel pack my-plugin --target claude --release
 ```
 
+For Git repositories, the archive includes tracked and unignored source files,
+including implementation code, and regenerates the selected target's outputs
+in a clean copy. Satchel therefore packages skill-plus-code repositories; it
+does not require a package to be skill-only.
+
 Print a portability report:
 
 ```bash
@@ -201,7 +223,7 @@ uv run satchel report my-plugin
 
 ## Manifest
 
-Minimal `satchel.yaml`:
+Starter-style skills package:
 
 ```yaml
 schema: satchel/v0
@@ -214,8 +236,6 @@ author:
 components:
   skills:
     path: ./skills
-  mcp:
-    path: ./.mcp.json
 
 targets:
   codex:
@@ -244,21 +264,24 @@ targets:
     enabled: false
     experimental: true
     output: ./.agents/plugins/my-plugin
+```
 
+For a repository-backed package with no remote MCP service, document why the
+remote-only channels do not apply:
+
+```yaml
+targets:
   chatgpt:
     enabled: false
-    manifest: ./chatgpt/app.json
-    app:
-      displayName: My App
-      shortDescription: Shared agent extension.
-      mcpUrl: https://example.com/mcp
-      privacyUrl: https://example.com/privacy
-      termsUrl: https://example.com/terms
-      supportUrl: https://example.com/support
-    compatibility:
-      requireReadOnlyHints: true
-      requireSearchFetch: false
+    notApplicable: This package has no remote MCP service.
+  anthropic:
+    enabled: false
+    notApplicable: This package has no remote MCP service.
 ```
+
+See the [manifest guide](docs/schema.md) for Cowork application metadata,
+remote ChatGPT and Anthropic metadata, MCP configuration, and every supported
+component.
 
 ## Output Model
 
@@ -268,7 +291,7 @@ targets:
 | `components.skills.path` | `skills` field | `skills` field | `skills` field | `agentSkills` field | ignored | ignored; skills ship via `claude` | copied to `skills/` |
 | `components.mcp.path` | `mcpServers` field | `mcpServers` field | `mcpServers` field | local servers are rejected; use `targets.cowork.connector` | runtime is `targets.chatgpt.app.mcpUrl` | runtime is `targets.anthropic.connector.mcpUrl` | copied to `mcp_config.json` |
 | `components.hooks.path` | `hooks` field | `hooks` field | `hooks` field | ignored | ignored | ignored | copied to `hooks.json` |
-| host-specific target fields | `targets.codex.interface` | `targets.claude.displayName` | target metadata | `targets.cowork.connector` | `targets.chatgpt.app` | `targets.anthropic.connector` | `targets.antigravity.output` |
+| host-specific target fields | `targets.codex.interface` | `targets.claude.displayName` | target metadata | developer, icons, accent color, and optional connector | `targets.chatgpt.app` | `targets.anthropic.connector` | `targets.antigravity.output` |
 | marketplace config | `.agents/plugins/marketplace.json` | `.claude-plugin/marketplace.json` | `.github/plugin/marketplace.json` | unsupported | submission metadata only | submission metadata only | unsupported |
 
 Generated manifests should be treated as build outputs. Edit `satchel.yaml`
@@ -289,8 +312,11 @@ plugin entry while preserving unrelated plugin entries and unknown metadata.
 | `satchel smoke <path>` | Validate a regenerated temporary copy without mutating the source tree. |
 | `satchel smoke <path> --target <target>` | Validate only one enabled target in a clean temporary copy. |
 | `satchel pack <path> --target <target>` | Build `dist/<name>-<version>-<target>.zip` from a clean regenerated copy. |
+| `satchel pack <path> --target <target> --release` | Run release checks before building the selected archive. |
 | `satchel report <path>` | Print a simple portability report. |
 | `satchel standards check <path>` | Compare upstream host standards sources with committed snapshots. |
+| `satchel standards check <path> --update` | Accept current upstream standards into committed snapshots after review. |
+| `satchel standards check <path> --include-commands` | Also run configured local CLI help probes. |
 | `satchel --version` | Print the installed Satchel version. |
 
 ## Release Readiness
@@ -304,7 +330,7 @@ alpha:
 | Standards watch | `standards/sources.yaml`, `satchel standards check`, and `.github/workflows/standards-watch.yml` track upstream host docs and open an issue on drift. |
 | Claude PR workflow | `.github/workflows/standards-claude-pr.yml` lets a maintainer manually dispatch a reviewed standards issue to the official Claude app. |
 | Clean smoke tests | `satchel smoke` regenerates and validates a temporary package copy; `--target` scopes the smoke run to one host. |
-| CI | `.github/workflows/ci.yml` runs lint, tests, schema-doc checks, release checks, host-aware smoke tests, and target archive builds. |
+| CI | `.github/workflows/ci.yml` runs lint, tests, schema-doc checks, release checks, host-aware smoke tests, and archives for all five applicable self-host targets. |
 | Packaging | `satchel pack --target` builds target-specific plugin archives; `pyproject.toml` and `.github/workflows/publish.yml` handle the Python package release. |
 | Project hygiene | `CONTRIBUTING.md`, `SECURITY.md`, `ROADMAP.md`, and issue templates are present. |
 | Schema docs | `docs/schema.md`, generated `docs/schema-reference.md`, and `schemas/satchel.schema.json` document the manifest. |

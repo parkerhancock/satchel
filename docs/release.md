@@ -37,7 +37,15 @@ Review the generated root outputs:
 ```bash
 uv run satchel generate .
 git diff -- .codex-plugin .claude-plugin .github/plugin .agents/plugins
+git diff -- cowork
 ```
+
+In Git repositories, each archive contains tracked and unignored package
+source, including code, and regenerates the selected target in a clean copy.
+Patch-mode marketplace files are preserved because they may contain host-owned
+metadata. Inspect archives before publishing; ChatGPT and Anthropic are metadata
+targets for remote MCP services, not substitutes for repository-backed plugin
+packages.
 
 ## Tag and Publish
 
