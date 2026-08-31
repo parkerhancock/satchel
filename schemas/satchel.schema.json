@@ -1,0 +1,289 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/parkerhancock/satchel/main/schemas/satchel.schema.json",
+  "title": "Satchel Manifest",
+  "description": "Product-agnostic source manifest for Satchel agent plugin packages.",
+  "type": "object",
+  "required": ["schema", "name", "version", "description"],
+  "additionalProperties": true,
+  "properties": {
+    "schema": {
+      "const": "satchel/v0",
+      "description": "Satchel schema version. The current schema identifier is satchel/v0.",
+      "examples": ["satchel/v0"]
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "description": "Lowercase kebab-case package name copied into generated target manifests.",
+      "examples": ["my-plugin"]
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Package version copied into generated target manifests and archives.",
+      "examples": ["0.1.0"]
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Short package description copied into generated target manifests.",
+      "examples": ["Shared agent extension."]
+    },
+    "author": {
+      "description": "Author metadata copied to targets that support it.",
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Author display name."
+        },
+        {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "homepage": {
+      "type": "string",
+      "description": "Project homepage URL copied where supported.",
+      "examples": ["https://example.com/my-plugin"]
+    },
+    "repository": {
+      "type": "string",
+      "description": "Source repository URL copied where supported.",
+      "examples": ["https://github.com/example/my-plugin"]
+    },
+    "license": {
+      "type": "string",
+      "description": "Package license identifier copied where supported.",
+      "examples": ["MIT"]
+    },
+    "keywords": {
+      "type": "array",
+      "description": "Search keywords copied where supported.",
+      "items": {
+        "type": "string"
+      },
+      "examples": [["agents", "skills"]]
+    },
+    "components": {
+      "type": "object",
+      "description": "Shared source components used by one or more generated targets.",
+      "additionalProperties": false,
+      "properties": {
+        "skills": {
+          "$ref": "#/$defs/component",
+          "description": "Portable skill directory. Each child skill needs SKILL.md."
+        },
+        "mcp": {
+          "$ref": "#/$defs/component",
+          "description": "JSON MCP server configuration."
+        },
+        "hooks": {
+          "$ref": "#/$defs/component",
+          "description": "Hook configuration copied or referenced by targets that support hooks."
+        },
+        "agents": {
+          "$ref": "#/$defs/component",
+          "description": "Agent definition directory for targets that support agents."
+        },
+        "commands": {
+          "$ref": "#/$defs/component",
+          "description": "Command definition directory for targets that support commands."
+        },
+        "lsp": {
+          "$ref": "#/$defs/component",
+          "description": "LSP server configuration for targets that support LSP."
+        },
+        "rules": {
+          "$ref": "#/$defs/component",
+          "description": "Rule files copied into experimental Antigravity output."
+        },
+        "apps": {
+          "$ref": "#/$defs/component",
+          "description": "Codex app configuration."
+        }
+      }
+    },
+    "targets": {
+      "type": "object",
+      "description": "Host-specific output configuration.",
+      "additionalProperties": true,
+      "properties": {
+        "codex": {
+          "$ref": "#/$defs/target",
+          "description": "Codex plugin manifest and marketplace output."
+        },
+        "claude": {
+          "$ref": "#/$defs/target",
+          "description": "Claude plugin manifest and marketplace output."
+        },
+        "copilot": {
+          "$ref": "#/$defs/target",
+          "description": "GitHub Copilot plugin manifest and marketplace output."
+        },
+        "antigravity": {
+          "$ref": "#/$defs/target",
+          "description": "Experimental Antigravity local package output."
+        },
+        "chatgpt": {
+          "$ref": "#/$defs/target",
+          "description": "ChatGPT Apps SDK app metadata, submission checklist, and MCP release-readiness output."
+        },
+        "anthropic": {
+          "$ref": "#/$defs/target",
+          "description": "Anthropic Connectors Directory connector metadata and manual submission checklist (distinct from the claude Claude Code plugin target)."
+        },
+        "cowork": {
+          "$ref": "#/$defs/target",
+          "description": "Microsoft 365 Copilot Cowork plugin manifest (agentSkills + a remote-MCP-only agentConnectors entry from targets.cowork.connector). There is no local/stdio transport; an mcp component server declared via command/args cannot back this target and is flagged, not silently dropped."
+        }
+      }
+    }
+  },
+  "$defs": {
+    "component": {
+      "description": "A shared package component path. Use a relative path inside the package root.",
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Relative path to the component."
+        },
+        {
+          "type": "object",
+          "required": ["path"],
+          "additionalProperties": true,
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "Relative path to the component."
+            }
+          }
+        }
+      ]
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Set false to disable this target.",
+          "default": true
+        },
+        "manifest": {
+          "type": "string",
+          "description": "Relative path for the generated target manifest."
+        },
+        "rootManifest": {
+          "type": "string",
+          "description": "Optional extra root manifest path used by the Copilot target."
+        },
+        "output": {
+          "type": "string",
+          "description": "Output directory for targets that generate local package layouts."
+        },
+        "experimental": {
+          "type": "boolean",
+          "description": "Marks an enabled experimental target as intentionally experimental."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Human-facing display name used by targets that support it."
+        },
+        "app": {
+          "type": "object",
+          "description": "ChatGPT app metadata, including the remote MCP URL and submission URLs.",
+          "additionalProperties": true
+        },
+        "compatibility": {
+          "type": "object",
+          "description": "ChatGPT compatibility checks and expectations such as read-only hints and search/fetch support.",
+          "additionalProperties": true
+        },
+        "submission": {
+          "description": "ChatGPT submission checklist output path, or a mapping with a path field.",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "additionalProperties": true,
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Relative path for the generated ChatGPT submission checklist."
+                }
+              }
+            }
+          ]
+        },
+        "interface": {
+          "type": "object",
+          "description": "Codex interface metadata copied into the Codex plugin manifest.",
+          "additionalProperties": true
+        },
+        "marketplace": {
+          "type": "object",
+          "description": "Marketplace catalog output configuration.",
+          "additionalProperties": true,
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "Relative path for the generated marketplace file."
+            },
+            "name": {
+              "type": "string",
+              "description": "Marketplace catalog name."
+            },
+            "patch": {
+              "type": "boolean",
+              "description": "Preserve host-owned marketplace metadata while updating generated plugin fields.",
+              "default": false
+            },
+            "source": {
+              "description": "Target-specific plugin source declaration used by marketplace install flows.",
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              ]
+            },
+            "category": {
+              "type": "string",
+              "description": "Marketplace category copied where supported."
+            },
+            "description": {
+              "type": "string",
+              "description": "Marketplace-level description copied where supported."
+            },
+            "installation": {
+              "type": "string",
+              "description": "Codex marketplace installation policy."
+            },
+            "authentication": {
+              "type": "string",
+              "description": "Codex marketplace authentication policy."
+            }
+          }
+        }
+      }
+    }
+  }
+}

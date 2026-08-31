@@ -1,0 +1,21 @@
+{
+  "name": "satchel-marketplace",
+  "interface": {
+    "displayName": "Satchel"
+  },
+  "plugins": [
+    {
+      "name": "satchel",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/parkerhancock/satchel.git",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

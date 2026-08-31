@@ -1,0 +1,12 @@
+{
+  "byte_count": 25579,
+  "id": "copilot-cli-plugin-reference",
+  "normalize": "text",
+  "observed_at": "2026-08-31T19:48:28Z",
+  "schema": "satchel-standards-snapshot/v0",
+  "sha256": "ea28b1950a40ebbb4647e666e8abf8de4ff25833e2c0116d97c52a6b22cac5f2",
+  "source": "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-plugin-reference.md",
+  "target": "copilot",
+  "title": "GitHub Copilot CLI plugin reference",
+  "type": "url"
+}

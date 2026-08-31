@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">Satchel output formats cover image</title>
+  <desc id="desc">One satchel.yaml source package flows through target adapters to generate plugin manifests, marketplaces, skills, MCP config, hooks, agents, rules, and assets for Codex, Claude, Copilot, and Antigravity.</desc>
+  <defs>
+    <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="#1f1b14" flood-opacity="0.13"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M2 2 L10 6 L2 10 Z" fill="#55736b"/>
+    </marker>
+    <style>
+      .bg { fill: #f7f1e6; }
+      .ink { fill: #171614; }
+      .muted { fill: #6d685d; }
+      .panel { fill: #fffdf8; stroke: #e1d7c5; stroke-width: 2; }
+      .source { fill: #f0fbf4; stroke: #1f8a69; stroke-width: 3; }
+      .codex { fill: #eef5ff; stroke: #4d73b8; stroke-width: 3; }
+      .claude { fill: #fff2ed; stroke: #d35b43; stroke-width: 3; }
+      .copilot { fill: #effaf4; stroke: #1f8a69; stroke-width: 3; }
+      .antigravity { fill: #fff7df; stroke: #b8841d; stroke-width: 3; }
+      .chip { fill: #ffffff; stroke: #ded4c4; stroke-width: 1.5; }
+      .accent { fill: #e5a82f; }
+      .green { fill: #1f8a69; }
+      .blue { fill: #4d73b8; }
+      .coral { fill: #d35b43; }
+      .gold { fill: #b8841d; }
+      .line { fill: none; stroke: #55736b; stroke-width: 4; stroke-linecap: round; marker-end: url(#arrow); }
+      .hairline { stroke: #d7ccb8; stroke-width: 2; }
+      .label { font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-weight: 700; font-size: 32px; }
+      .subhead { font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-weight: 700; font-size: 22px; }
+      .body { font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 21px; }
+      .small { font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 17px; }
+      .code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: 20px; }
+      .tiny-code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: 14px; }
+      .micro-code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: 11.8px; }
+    </style>
+    <g id="satchel-mark">
+      <path d="M38 55 C38 41 50 29 64 29 H96 C110 29 122 41 122 55" fill="none" stroke="#171614" stroke-width="11" stroke-linecap="round"/>
+      <path d="M27 55 H133 L122 132 H38 Z" fill="#e5a82f" stroke="#171614" stroke-width="9" stroke-linejoin="round"/>
+      <path d="M27 55 L49 88 H111 L133 55" fill="#f2c766" stroke="#171614" stroke-width="9" stroke-linejoin="round"/>
+      <path d="M80 60 V104" fill="none" stroke="#171614" stroke-width="7" stroke-linecap="round"/>
+      <path d="M80 80 C68 80 60 88 60 100" fill="none" stroke="#1f8a69" stroke-width="7" stroke-linecap="round"/>
+      <path d="M80 80 C92 80 100 88 100 100" fill="none" stroke="#d35b43" stroke-width="7" stroke-linecap="round"/>
+      <circle cx="80" cy="60" r="8" fill="#fffdf8" stroke="#171614" stroke-width="5"/>
+      <rect x="46" y="107" width="27" height="20" rx="6" fill="#eef5ff" stroke="#4d73b8" stroke-width="5"/>
+      <rect x="87" y="107" width="27" height="20" rx="6" fill="#fff2ed" stroke="#d35b43" stroke-width="5"/>
+    </g>
+  </defs>
+
+  <rect class="bg" width="1200" height="680" rx="34"/>
+  <path d="M0 526 C165 478 265 596 430 548 C625 492 755 588 936 526 C1054 486 1148 494 1200 516 L1200 680 L0 680 Z" fill="#efe4d1"/>
+  <path d="M80 94 H1120" class="hairline"/>
+
+  <g transform="translate(80 31) scale(0.42)">
+    <use href="#satchel-mark"/>
+  </g>
+  <text x="154" y="72" class="label ink">Satchel</text>
+  <text x="306" y="72" class="body muted">One source package. Many native output formats.</text>
+
+  <g filter="url(#soft-shadow)">
+    <rect x="70" y="136" width="270" height="380" rx="16" class="source"/>
+    <rect x="98" y="168" width="214" height="48" rx="8" fill="#ffffff"/>
+    <circle cx="122" cy="192" r="7" class="green"/>
+    <circle cx="145" cy="192" r="7" class="accent"/>
+    <circle cx="168" cy="192" r="7" class="coral"/>
+    <text x="100" y="255" class="code ink">satchel.yaml</text>
+    <text x="100" y="292" class="tiny-code muted">components:</text>
+    <text x="128" y="320" class="tiny-code green">skills/</text>
+    <text x="128" y="346" class="tiny-code green">.mcp.json</text>
+    <text x="128" y="372" class="tiny-code green">hooks/hooks.json</text>
+    <text x="128" y="398" class="tiny-code green">agents/, rules/</text>
+    <text x="100" y="438" class="tiny-code muted">targets:</text>
+    <text x="128" y="466" class="tiny-code coral">codex, claude</text>
+    <text x="128" y="492" class="tiny-code coral">copilot, antigravity</text>
+  </g>
+
+  <g filter="url(#soft-shadow)">
+    <rect x="388" y="184" width="190" height="300" rx="16" class="panel"/>
+    <text x="423" y="224" class="subhead ink">Adapters</text>
+    <text x="423" y="254" class="small muted">pluggable targets</text>
+    <g transform="translate(435 276) scale(0.58)">
+      <use href="#satchel-mark"/>
+    </g>
+    <rect x="410" y="354" width="146" height="24" rx="7" class="chip"/>
+    <text x="428" y="371" class="tiny-code blue">codex.py</text>
+    <rect x="410" y="384" width="146" height="24" rx="7" class="chip"/>
+    <text x="428" y="401" class="tiny-code coral">claude.py</text>
+    <rect x="410" y="414" width="146" height="24" rx="7" class="chip"/>
+    <text x="428" y="431" class="tiny-code green">copilot.py</text>
+    <rect x="410" y="444" width="146" height="24" rx="7" class="chip"/>
+    <text x="428" y="461" class="tiny-code gold">antigravity.py</text>
+  </g>
+
+  <path d="M348 326 C364 326 369 326 382 326" class="line"/>
+  <path d="M586 310 C612 264 625 236 642 226" class="line"/>
+  <path d="M586 330 C700 232 792 224 898 245" class="line"/>
+  <path d="M586 354 C612 404 626 432 642 445" class="line"/>
+  <path d="M586 378 C690 506 794 504 898 445" class="line"/>
+
+  <text x="650" y="135" class="subhead ink">Generated output formats</text>
+  <text x="650" y="162" class="small muted">manifests, catalogs, skills, tools, automation, and agent context</text>
+
+  <g filter="url(#soft-shadow)">
+    <rect x="650" y="185" width="230" height="150" rx="14" class="codex"/>
+    <text x="674" y="218" class="subhead ink">Codex</text>
+    <rect x="674" y="237" width="190" height="22" rx="6" class="chip"/>
+    <text x="686" y="253" class="micro-code blue">.codex-plugin/plugin.json</text>
+    <rect x="674" y="265" width="190" height="22" rx="6" class="chip"/>
+    <text x="686" y="281" class="micro-code blue">.agents/plugins/catalog</text>
+    <rect x="674" y="293" width="82" height="22" rx="6" class="chip"/>
+    <text x="686" y="309" class="micro-code blue">skills/</text>
+    <rect x="762" y="293" width="92" height="22" rx="6" class="chip"/>
+    <text x="774" y="309" class="micro-code blue">.app.json</text>
+  </g>
+
+  <g filter="url(#soft-shadow)">
+    <rect x="905" y="185" width="230" height="150" rx="14" class="claude"/>
+    <text x="929" y="218" class="subhead ink">Claude</text>
+    <rect x="929" y="237" width="190" height="22" rx="6" class="chip"/>
+    <text x="941" y="253" class="micro-code coral">.claude-plugin/plugin.json</text>
+    <rect x="929" y="265" width="190" height="22" rx="6" class="chip"/>
+    <text x="941" y="281" class="micro-code coral">marketplace.json</text>
+    <rect x="929" y="293" width="82" height="22" rx="6" class="chip"/>
+    <text x="941" y="309" class="micro-code coral">agents/</text>
+    <rect x="1017" y="293" width="92" height="22" rx="6" class="chip"/>
+    <text x="1029" y="309" class="micro-code coral">hooks/</text>
+  </g>
+
+  <g filter="url(#soft-shadow)">
+    <rect x="650" y="370" width="230" height="150" rx="14" class="copilot"/>
+    <text x="674" y="403" class="subhead ink">Copilot</text>
+    <rect x="674" y="422" width="190" height="22" rx="6" class="chip"/>
+    <text x="686" y="438" class="micro-code green">.github/plugin/plugin.json</text>
+    <rect x="674" y="450" width="190" height="22" rx="6" class="chip"/>
+    <text x="686" y="466" class="micro-code green">.github/plugin/marketplace</text>
+    <rect x="674" y="478" width="82" height="22" rx="6" class="chip"/>
+    <text x="686" y="494" class="micro-code green">mcpServers</text>
+    <rect x="762" y="478" width="92" height="22" rx="6" class="chip"/>
+    <text x="774" y="494" class="micro-code green">hooks.json</text>
+  </g>
+
+  <g filter="url(#soft-shadow)">
+    <rect x="905" y="370" width="230" height="150" rx="14" class="antigravity"/>
+    <text x="929" y="403" class="subhead ink">Antigravity</text>
+    <rect x="929" y="422" width="190" height="22" rx="6" class="chip"/>
+    <text x="941" y="438" class="micro-code gold">plugin.json</text>
+    <rect x="929" y="450" width="190" height="22" rx="6" class="chip"/>
+    <text x="941" y="466" class="micro-code gold">mcp_config.json</text>
+    <rect x="929" y="478" width="82" height="22" rx="6" class="chip"/>
+    <text x="941" y="494" class="micro-code gold">rules/</text>
+    <rect x="1017" y="478" width="92" height="22" rx="6" class="chip"/>
+    <text x="1029" y="494" class="micro-code gold">skills/</text>
+  </g>
+
+  <g>
+    <rect x="98" y="574" width="1004" height="54" rx="14" fill="#171614"/>
+    <text x="126" y="609" class="tiny-code" fill="#fffdf8">$ satchel check ./my-plugin</text>
+    <text x="455" y="609" class="tiny-code" fill="#9be0c6">adapter outputs fresh</text>
+    <text x="690" y="609" class="tiny-code" fill="#f0c772">host caveats reported</text>
+    <text x="936" y="609" class="tiny-code" fill="#b7cff8">ready for CI</text>
+  </g>
+</svg>

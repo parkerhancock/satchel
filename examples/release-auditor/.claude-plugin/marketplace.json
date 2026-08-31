@@ -1,0 +1,30 @@
+{
+  "$schema": "https://docs.claude.com/schemas/claude-plugin-marketplace-v1.json",
+  "name": "release-auditor-marketplace",
+  "description": "Review agent plugin packages for release readiness.",
+  "plugins": [
+    {
+      "name": "release-auditor",
+      "source": "./",
+      "description": "Review agent plugin packages for release readiness.",
+      "version": "0.1.0",
+      "displayName": "Release Auditor",
+      "author": {
+        "name": "Satchel Project"
+      },
+      "repository": "https://github.com/parkerhancock/satchel",
+      "license": "MIT",
+      "keywords": [
+        "release",
+        "plugins",
+        "validation"
+      ],
+      "skills": [
+        "./skills/release-auditor"
+      ]
+    }
+  ],
+  "owner": {
+    "name": "Satchel Project"
+  }
+}

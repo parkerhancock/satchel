@@ -1,0 +1,30 @@
+name: Release Smoke
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version without the v prefix (for example, 0.4.0).
+        required: true
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: astral-sh/setup-uv@v5
+      - run: uvx --from satchel-agent==${{ inputs.version }} satchel --help
+      - run: uvx --from satchel-agent==${{ inputs.version }} satchel --version
+      - run: |
+          tmp="$(mktemp -d)"
+          uvx --from satchel-agent==${{ inputs.version }} satchel init "$tmp/pypi-smoke"
+          uvx --from satchel-agent==${{ inputs.version }} satchel generate "$tmp/pypi-smoke"
+          uvx --from satchel-agent==${{ inputs.version }} satchel check "$tmp/pypi-smoke"
+          uvx --from satchel-agent==${{ inputs.version }} satchel smoke "$tmp/pypi-smoke"
+      - run: uvx --from git+https://github.com/parkerhancock/satchel@v${{ inputs.version }} satchel --help
+      - run: uvx --from git+https://github.com/parkerhancock/satchel@v${{ inputs.version }} satchel --version
+      - run: |
+          tmp="$(mktemp -d)"
+          uvx --from git+https://github.com/parkerhancock/satchel@v${{ inputs.version }} satchel init "$tmp/git-smoke"
+          uvx --from git+https://github.com/parkerhancock/satchel@v${{ inputs.version }} satchel generate "$tmp/git-smoke"
+          uvx --from git+https://github.com/parkerhancock/satchel@v${{ inputs.version }} satchel check "$tmp/git-smoke"
+          uvx --from git+https://github.com/parkerhancock/satchel@v${{ inputs.version }} satchel smoke "$tmp/git-smoke"

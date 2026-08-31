@@ -1,0 +1,38 @@
+schema: satchel/v0
+name: basic-satchel-plugin
+version: 0.1.0
+description: Basic Satchel package that generates multi-target plugin manifests.
+author:
+  name: Example Team
+keywords:
+  - agents
+  - skills
+
+components:
+  skills:
+    path: ./skills
+
+targets:
+  codex:
+    enabled: true
+    manifest: ./.codex-plugin/plugin.json
+    interface:
+      displayName: Basic Satchel Plugin
+      shortDescription: Basic Satchel package.
+      category: Productivity
+      capabilities:
+        - Read
+
+  claude:
+    enabled: true
+    manifest: ./.claude-plugin/plugin.json
+    displayName: Basic Satchel Plugin
+
+  copilot:
+    enabled: true
+    manifest: ./.github/plugin/plugin.json
+
+  antigravity:
+    enabled: false
+    experimental: true
+    output: ./.agents/plugins/basic-satchel-plugin

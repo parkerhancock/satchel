@@ -1,0 +1,28 @@
+{
+  "name": "release-auditor",
+  "version": "0.1.0",
+  "description": "Review agent plugin packages for release readiness.",
+  "author": {
+    "name": "Satchel Project"
+  },
+  "repository": "https://github.com/parkerhancock/satchel",
+  "license": "MIT",
+  "keywords": [
+    "release",
+    "plugins",
+    "validation"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "hooks": "./hooks/hooks.json",
+  "interface": {
+    "displayName": "Release Auditor",
+    "shortDescription": "Review agent plugin packages for release readiness.",
+    "developerName": "Satchel Project",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "release-auditor-marketplace",
+  "metadata": {
+    "description": "Review agent plugin packages for release readiness.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "release-auditor",
+      "description": "Review agent plugin packages for release readiness.",
+      "version": "0.1.0",
+      "source": {
+        "source": "github",
+        "repo": "example/release-auditor"
+      }
+    }
+  ],
+  "owner": {
+    "name": "Satchel Project"
+  }
+}

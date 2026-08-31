@@ -1,0 +1,18 @@
+schema: satchel/v0
+name: fixture-unsupported-mixed
+version: 0.1.0
+description: Fixture with a known portable core and an unknown target.
+author:
+  name: Satchel Fixtures
+components:
+  skills:
+    path: ./skills
+targets:
+  codex:
+    enabled: false
+  claude:
+    enabled: false
+  cursor:
+    enabled: true
+    manifest: ./.cursor/plugin.json
+

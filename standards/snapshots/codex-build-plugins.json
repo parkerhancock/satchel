@@ -1,0 +1,12 @@
+{
+  "byte_count": 22342,
+  "id": "codex-build-plugins",
+  "normalize": "text",
+  "observed_at": "2026-08-31T19:48:25Z",
+  "schema": "satchel-standards-snapshot/v0",
+  "sha256": "d0a5ae69a38afbca8e0ac00cd516ac612622f93de1a623fd53cb5f9d4f79b1f2",
+  "source": "https://developers.openai.com/plugins/build/plugins.md",
+  "target": "codex",
+  "title": "Codex build plugins",
+  "type": "url"
+}

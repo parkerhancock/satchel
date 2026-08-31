@@ -1,0 +1,12 @@
+{
+  "byte_count": 9834,
+  "id": "codex-skills",
+  "normalize": "text",
+  "observed_at": "2026-08-31T19:48:25Z",
+  "schema": "satchel-standards-snapshot/v0",
+  "sha256": "51c2dda56bb2041d3f69c24a54557ab2b97ee16cbf73249661adde0e3185fbc0",
+  "source": "https://learn.chatgpt.com/docs/build-skills.md",
+  "target": "codex",
+  "title": "Agent Skills",
+  "type": "url"
+}

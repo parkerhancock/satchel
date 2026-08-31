@@ -1,0 +1,56 @@
+[project]
+name = "satchel-agent"
+version = "0.4.0"
+description = "Product-agnostic build tooling for agent plugin packages."
+readme = "README.md"
+authors = [
+    { name = "Parker Hancock", email = "633163+parkerhancock@users.noreply.github.com" }
+]
+license = "MIT"
+requires-python = ">=3.11"
+keywords = ["agents", "plugins", "codex", "claude", "copilot", "cowork", "chatgpt", "anthropic", "antigravity", "skills", "mcp"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Build Tools",
+]
+dependencies = [
+    "pyyaml>=6.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/parkerhancock/satchel"
+Repository = "https://github.com/parkerhancock/satchel"
+Issues = "https://github.com/parkerhancock/satchel/issues"
+Documentation = "https://github.com/parkerhancock/satchel#readme"
+
+[project.scripts]
+satchel = "satchel.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/satchel"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "ruff>=0.9.0",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

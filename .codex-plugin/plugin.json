@@ -1,0 +1,47 @@
+{
+  "name": "satchel",
+  "version": "0.4.0",
+  "description": "Build agent plugin manifests from one product-agnostic source package.",
+  "author": {
+    "name": "Parker Hancock",
+    "url": "https://github.com/parkerhancock"
+  },
+  "homepage": "https://github.com/parkerhancock/satchel",
+  "repository": "https://github.com/parkerhancock/satchel",
+  "license": "MIT",
+  "keywords": [
+    "agents",
+    "plugins",
+    "codex",
+    "claude",
+    "copilot",
+    "chatgpt",
+    "anthropic",
+    "cowork",
+    "antigravity",
+    "skills",
+    "mcp"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Satchel",
+    "shortDescription": "Build agent plugins from one source package.",
+    "developerName": "Parker Hancock",
+    "category": "Productivity",
+    "longDescription": "Product-agnostic authoring tools for agent extensions. Satchel keeps satchel.yaml as the source of truth, then generates host-specific plugin files and checks generated-file drift.",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/parkerhancock/satchel",
+    "defaultPrompt": [
+      "Use Satchel to add or validate a product-agnostic agent plugin package."
+    ],
+    "brandColor": "#e5a82f",
+    "composerIcon": "./assets/logo.svg",
+    "logo": "./assets/logo.svg",
+    "screenshots": [
+      "./assets/cover.svg"
+    ]
+  }
+}

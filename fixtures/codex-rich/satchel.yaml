@@ -1,0 +1,32 @@
+schema: satchel/v0
+name: fixture-codex-rich
+version: 0.1.0
+description: Fixture covering Codex interface metadata.
+author:
+  name: Satchel Fixtures
+components:
+  skills:
+    path: ./skills
+  mcp:
+    path: ./.mcp.json
+  hooks:
+    path: ./hooks/hooks.json
+  apps:
+    path: ./apps/app.json
+targets:
+  codex:
+    enabled: true
+    manifest: ./.codex-plugin/plugin.json
+    marketplace:
+      path: ./.agents/plugins/marketplace.json
+      name: fixture-codex-rich-marketplace
+    interface:
+      displayName: Codex Rich Fixture
+      shortDescription: Fixture covering Codex interface metadata.
+      category: Productivity
+      capabilities:
+        - Read
+        - Write
+  claude:
+    enabled: false
+

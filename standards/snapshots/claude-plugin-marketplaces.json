@@ -1,0 +1,12 @@
+{
+  "byte_count": 100643,
+  "id": "claude-plugin-marketplaces",
+  "normalize": "text",
+  "observed_at": "2026-08-31T19:48:27Z",
+  "schema": "satchel-standards-snapshot/v0",
+  "sha256": "3fd0e15338ae137e7a3bec18b6a14623fe976aef2ab935000214473547c7abd6",
+  "source": "https://code.claude.com/docs/en/plugin-marketplaces.md",
+  "target": "claude",
+  "title": "Claude Code plugin marketplaces",
+  "type": "url"
+}

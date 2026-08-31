@@ -1,0 +1,12 @@
+{
+  "byte_count": 6315,
+  "id": "copilot-cli-about-plugins",
+  "normalize": "text",
+  "observed_at": "2026-08-31T19:48:28Z",
+  "schema": "satchel-standards-snapshot/v0",
+  "sha256": "032a8fa9c45f8e56b9892b34ace949ae5b1d521cf0963c99319be8ec93d3461e",
+  "source": "https://docs.github.com/en/copilot/concepts/agents/about-plugins.md",
+  "target": "copilot",
+  "title": "About GitHub Copilot plugins",
+  "type": "url"
+}

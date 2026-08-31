@@ -1,0 +1,49 @@
+schema: satchel/v0
+name: release-auditor
+version: 0.1.0
+description: Review agent plugin packages for release readiness.
+author:
+  name: Satchel Project
+repository: https://github.com/parkerhancock/satchel
+license: MIT
+keywords:
+  - release
+  - plugins
+  - validation
+components:
+  skills:
+    path: ./skills
+  mcp:
+    path: ./.mcp.json
+  hooks:
+    path: ./hooks/hooks.json
+targets:
+  codex:
+    enabled: true
+    manifest: ./.codex-plugin/plugin.json
+    marketplace:
+      path: ./.agents/plugins/marketplace.json
+      name: release-auditor-marketplace
+    interface:
+      displayName: Release Auditor
+      shortDescription: Review agent plugin packages for release readiness.
+      category: Productivity
+      capabilities:
+        - Read
+        - Write
+  claude:
+    enabled: true
+    manifest: ./.claude-plugin/plugin.json
+    displayName: Release Auditor
+    marketplace:
+      path: ./.claude-plugin/marketplace.json
+      name: release-auditor-marketplace
+  copilot:
+    enabled: true
+    manifest: ./.github/plugin/plugin.json
+    marketplace:
+      path: ./.github/plugin/marketplace.json
+      name: release-auditor-marketplace
+      source:
+        source: github
+        repo: example/release-auditor

@@ -1,0 +1,12 @@
+{
+  "byte_count": 2690,
+  "id": "antigravity-plugins",
+  "normalize": "text",
+  "observed_at": "2026-08-31T19:48:29Z",
+  "schema": "satchel-standards-snapshot/v0",
+  "sha256": "55f8c27d0bb9b148a4d21218e9ebea53141135e0c46b20e31c3fe82cd078008d",
+  "source": "https://www.antigravity.google/docs/plugins.md",
+  "target": "antigravity",
+  "title": "Antigravity plugins",
+  "type": "url"
+}

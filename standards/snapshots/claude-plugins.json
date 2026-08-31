@@ -1,0 +1,12 @@
+{
+  "byte_count": 24783,
+  "id": "claude-plugins",
+  "normalize": "text",
+  "observed_at": "2026-08-31T19:48:26Z",
+  "schema": "satchel-standards-snapshot/v0",
+  "sha256": "2ba7138f7ca70055eb308973710ca4dd4dfc2ff388a5c4925722d4e7d27d32be",
+  "source": "https://code.claude.com/docs/en/plugins.md",
+  "target": "claude",
+  "title": "Claude Code plugins",
+  "type": "url"
+}

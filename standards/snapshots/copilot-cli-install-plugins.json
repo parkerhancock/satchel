@@ -1,0 +1,12 @@
+{
+  "byte_count": 4698,
+  "id": "copilot-cli-install-plugins",
+  "normalize": "text",
+  "observed_at": "2026-08-31T19:48:29Z",
+  "schema": "satchel-standards-snapshot/v0",
+  "sha256": "f937b21ecf6e5c196ab64fe918ebe34bd1a74e1e74621caf63828b9bbe08db8e",
+  "source": "https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/plugins-finding-installing.md",
+  "target": "copilot",
+  "title": "Finding and installing GitHub Copilot CLI plugins",
+  "type": "url"
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://docs.claude.com/schemas/claude-plugin-marketplace-v1.json",
+  "name": "satchel-marketplace",
+  "description": "Build agent plugin manifests from one product-agnostic source package.",
+  "plugins": [
+    {
+      "name": "satchel",
+      "source": {
+        "source": "github",
+        "repo": "parkerhancock/satchel",
+        "ref": "main"
+      },
+      "description": "Build agent plugin manifests from one product-agnostic source package.",
+      "version": "0.4.0",
+      "displayName": "Satchel",
+      "author": {
+        "name": "Parker Hancock",
+        "url": "https://github.com/parkerhancock"
+      },
+      "homepage": "https://github.com/parkerhancock/satchel",
+      "repository": "https://github.com/parkerhancock/satchel",
+      "license": "MIT",
+      "keywords": [
+        "agents",
+        "plugins",
+        "codex",
+        "claude",
+        "copilot",
+        "chatgpt",
+        "anthropic",
+        "cowork",
+        "antigravity",
+        "skills",
+        "mcp"
+      ],
+      "category": "Productivity",
+      "skills": [
+        "./skills/satchel"
+      ]
+    }
+  ],
+  "owner": {
+    "name": "Parker Hancock",
+    "url": "https://github.com/parkerhancock"
+  }
+}

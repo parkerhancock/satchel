@@ -1,0 +1,17 @@
+schema: satchel/v0
+name: fixture-skills-only
+version: 0.1.0
+description: Fixture with only portable skills.
+author:
+  name: Satchel Fixtures
+components:
+  skills:
+    path: ./skills
+targets:
+  codex:
+    enabled: true
+    manifest: ./.codex-plugin/plugin.json
+  claude:
+    enabled: true
+    manifest: ./.claude-plugin/plugin.json
+

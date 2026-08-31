@@ -1,0 +1,27 @@
+schema: satchel/v0
+name: fixture-antigravity-rich
+version: 0.1.0
+description: Fixture covering experimental Antigravity output.
+author:
+  name: Satchel Fixtures
+components:
+  skills:
+    path: ./skills
+  mcp:
+    path: ./.mcp.json
+  hooks:
+    path: ./hooks/hooks.json
+  agents:
+    path: ./agents
+  rules:
+    path: ./rules
+targets:
+  codex:
+    enabled: false
+  claude:
+    enabled: false
+  antigravity:
+    enabled: true
+    experimental: true
+    output: ./.agents/plugins/fixture-antigravity-rich
+

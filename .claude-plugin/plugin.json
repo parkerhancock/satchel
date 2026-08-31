@@ -1,0 +1,27 @@
+{
+  "name": "satchel",
+  "displayName": "Satchel",
+  "version": "0.4.0",
+  "description": "Build agent plugin manifests from one product-agnostic source package.",
+  "author": {
+    "name": "Parker Hancock",
+    "url": "https://github.com/parkerhancock"
+  },
+  "homepage": "https://github.com/parkerhancock/satchel",
+  "repository": "https://github.com/parkerhancock/satchel",
+  "license": "MIT",
+  "keywords": [
+    "agents",
+    "plugins",
+    "codex",
+    "claude",
+    "copilot",
+    "chatgpt",
+    "anthropic",
+    "cowork",
+    "antigravity",
+    "skills",
+    "mcp"
+  ],
+  "skills": "./skills/"
+}

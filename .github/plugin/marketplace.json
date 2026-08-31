@@ -1,0 +1,23 @@
+{
+  "name": "satchel-marketplace",
+  "metadata": {
+    "description": "Build agent plugin manifests from one product-agnostic source package.",
+    "version": "0.4.0"
+  },
+  "plugins": [
+    {
+      "name": "satchel",
+      "description": "Build agent plugin manifests from one product-agnostic source package.",
+      "version": "0.4.0",
+      "source": {
+        "source": "github",
+        "repo": "parkerhancock/satchel",
+        "ref": "main"
+      },
+      "category": "Productivity"
+    }
+  ],
+  "owner": {
+    "name": "Parker Hancock"
+  }
+}

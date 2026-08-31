@@ -1,0 +1,116 @@
+schema: satchel-standards/v0
+sources:
+  - id: codex-plugins
+    target: codex
+    title: Agent Plugins overview
+    type: url
+    url: https://learn.chatgpt.com/docs/plugins.md
+    normalize: text
+    required: true
+
+  - id: codex-build-plugins
+    target: codex
+    title: Codex build plugins
+    type: url
+    url: https://developers.openai.com/plugins/build/plugins.md
+    normalize: text
+    required: true
+
+  - id: codex-skills
+    target: codex
+    title: Agent Skills
+    type: url
+    url: https://learn.chatgpt.com/docs/build-skills.md
+    normalize: text
+    required: true
+
+  - id: claude-plugins
+    target: claude
+    title: Claude Code plugins
+    type: url
+    url: https://code.claude.com/docs/en/plugins.md
+    normalize: text
+    required: true
+
+  - id: claude-plugin-marketplaces
+    target: claude
+    title: Claude Code plugin marketplaces
+    type: url
+    url: https://code.claude.com/docs/en/plugin-marketplaces.md
+    normalize: text
+    required: true
+
+  - id: claude-plugins-reference
+    target: claude
+    title: Claude Code plugins reference
+    type: url
+    url: https://code.claude.com/docs/en/plugins-reference.md
+    normalize: text
+    required: true
+
+  - id: copilot-cli-plugin-reference
+    target: copilot
+    title: GitHub Copilot CLI plugin reference
+    type: url
+    url: https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-plugin-reference.md
+    normalize: text
+    required: true
+
+  - id: copilot-cli-about-plugins
+    target: copilot
+    title: About GitHub Copilot plugins
+    type: url
+    url: https://docs.github.com/en/copilot/concepts/agents/about-plugins.md
+    normalize: text
+    required: true
+
+  - id: copilot-cli-install-plugins
+    target: copilot
+    title: Finding and installing GitHub Copilot CLI plugins
+    type: url
+    url: https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/plugins-finding-installing.md
+    normalize: text
+    required: true
+
+  - id: antigravity-plugins
+    target: antigravity
+    title: Antigravity plugins
+    type: url
+    url: https://www.antigravity.google/docs/plugins.md
+    normalize: text
+    required: true
+
+  - id: codex-plugin-help
+    target: codex
+    title: Codex plugin CLI help
+    type: command
+    command: ["codex", "plugin", "--help"]
+    required: false
+
+  - id: claude-plugin-help
+    target: claude
+    title: Claude plugin CLI help
+    type: command
+    command: ["claude", "plugin", "--help"]
+    required: false
+
+  - id: claude-plugin-validate-help
+    target: claude
+    title: Claude plugin validate CLI help
+    type: command
+    command: ["claude", "plugin", "validate", "--help"]
+    required: false
+
+  - id: copilot-plugin-help
+    target: copilot
+    title: GitHub Copilot plugin CLI help
+    type: command
+    command: ["copilot", "plugin", "--help"]
+    required: false
+
+  - id: antigravity-plugin-validate-help
+    target: antigravity
+    title: Antigravity plugin validate CLI help
+    type: command
+    command: ["agy", "plugin", "validate", "--help"]
+    required: false

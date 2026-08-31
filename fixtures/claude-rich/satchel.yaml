@@ -1,0 +1,28 @@
+schema: satchel/v0
+name: fixture-claude-rich
+version: 0.1.0
+description: Fixture covering Claude-friendly package structure.
+author:
+  name: Satchel Fixtures
+components:
+  skills:
+    path: ./skills
+  mcp:
+    path: ./.mcp.json
+  hooks:
+    path: ./hooks/hooks.json
+  agents:
+    path: ./agents
+  commands:
+    path: ./commands
+targets:
+  codex:
+    enabled: false
+  claude:
+    enabled: true
+    manifest: ./.claude-plugin/plugin.json
+    displayName: Claude Rich Fixture
+    marketplace:
+      path: ./.claude-plugin/marketplace.json
+      name: fixture-claude-rich-marketplace
+
