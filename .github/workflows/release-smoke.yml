@@ -11,7 +11,7 @@ jobs:
   install:
     runs-on: ubuntu-latest
     steps:
-      - uses: astral-sh/setup-uv@v10
+      - uses: astral-sh/setup-uv@v10.0.1
       - run: uvx --from satchel-agent==${{ inputs.version }} satchel --help
       - run: uvx --from satchel-agent==${{ inputs.version }} satchel --version
       - run: |
