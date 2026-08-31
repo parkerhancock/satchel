@@ -54,7 +54,7 @@ and writes a target-specific ZIP archive to `dist/` by default.
 uv run satchel pack . --target claude --release
 ```
 
-`--release` adds remote marketplace-source checks before the archive is written.
+`--release` adds portable marketplace-source checks before the archive is written.
 `--host` can be combined with `pack` when local host validators are installed.
 The source package is not mutated. In Git repositories, the archive contains
 tracked and unignored package files, including implementation code, and

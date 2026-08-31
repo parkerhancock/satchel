@@ -48,7 +48,7 @@ def test_check_json_reports_stale_outputs(
     assert result["diagnostics"][0]["target"] == "claude"
 
 
-def test_check_warns_on_explicit_local_marketplace_source(
+def test_check_accepts_package_relative_marketplace_source(
     tmp_path: Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
     package = tmp_path / "my-plugin"
@@ -59,6 +59,29 @@ def test_check_warns_on_explicit_local_marketplace_source(
     data["targets"]["claude"]["marketplace"] = {
         "path": "./.claude-plugin/marketplace.json",
         "source": "./",
+    }
+    manifest_path.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
+    assert main(["generate", str(package)]) == 0
+    capsys.readouterr()
+
+    assert main(["check", str(package), "--json"]) == 0
+    result = json.loads(capsys.readouterr().out)
+
+    assert result["ok"] is True
+    assert result["summary"]["warnings"] == 0
+
+
+def test_check_warns_on_machine_local_marketplace_source(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    package = tmp_path / "my-plugin"
+
+    assert main(["init", str(package)]) == 0
+    manifest_path = package / "satchel.yaml"
+    data = yaml.safe_load(manifest_path.read_text())
+    data["targets"]["claude"]["marketplace"] = {
+        "path": "./.claude-plugin/marketplace.json",
+        "source": "/Users/example/my-plugin",
     }
     manifest_path.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
     assert main(["generate", str(package)]) == 0

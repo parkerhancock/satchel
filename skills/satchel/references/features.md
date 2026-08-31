@@ -61,7 +61,7 @@ Shared source components live under `components` in `satchel.yaml`.
 | `satchel check <path>` | Validate source and fail on missing or stale generated outputs. |
 | `satchel check <path> --json` | Emit machine-readable diagnostics with stable codes. |
 | `satchel check <path> --host` | Run non-mutating host validators where available. |
-| `satchel check <path> --release` | Require remote marketplace sources for release installability. |
+| `satchel check <path> --release` | Require package-relative or remote marketplace sources for release installability. |
 | `satchel smoke <path>` | Validate a clean temporary regenerated copy. |
 | `satchel smoke <path> --target <target>` | Smoke only one enabled target. |
 | `satchel pack <path> --target <target>` | Build `dist/<name>-<version>-<target>.zip` from a clean regenerated copy. |

@@ -43,12 +43,13 @@ Satchel still owns generated fields such as the package plugin `name`, `source`,
 `version`, `description`, generated skill paths, and generated policy fields.
 Invalid marketplace JSON fails instead of being overwritten.
 
-## Local vs Remote Sources
+## Package-Relative vs Machine-Local Sources
 
-A local source is useful during development but is not release installable from
-another machine.
+A package-relative source is release installable when the marketplace and plugin
+folder ship in the same repository or archive. Both Claude and Codex support this
+layout.
 
-Examples of local-only sources:
+Examples of portable package-relative sources:
 
 ```yaml
 targets:
@@ -60,8 +61,11 @@ targets:
     marketplace:
       source:
         source: local
-        path: ./
+        path: ./plugins/my-plugin
 ```
+
+Absolute paths and paths that escape the package root are machine-local and are
+not release installable from another machine.
 
 Examples of remote-ready sources:
 
@@ -83,13 +87,13 @@ targets:
 ```
 
 Run `satchel check --release` before publishing. It fails if enabled
-marketplace-capable targets do not have remote marketplace sources.
+marketplace-capable targets do not have package-relative or remote sources.
 
 ## Claude And Codex Workflow
 
 For a package like `my-plugin`:
 
-1. Configure remote marketplace sources in `satchel.yaml`.
+1. Configure package-relative or remote marketplace sources in `satchel.yaml`.
 2. Run:
 
    ```bash
@@ -117,12 +121,12 @@ For a package like `my-plugin`:
 
 ## Current Installability Rules
 
-- `remote-ready`: marketplace source points at a GitHub repo, Git URL, or HTTP
-  URL and required owner metadata is available.
+- `remote-ready`: marketplace source is package-relative or points at a GitHub
+  repo, Git URL, or HTTP URL, and required owner metadata is available.
 - `incomplete (owner missing)`: the Claude or Copilot marketplace has a source
   but no author in `satchel.yaml` or preserved owner in a patch-mode file.
-- `local-only`: marketplace source is `./`, a local path, or a local source
-  object.
+- `local-only`: marketplace source is an absolute path, escapes the package
+  root, or is otherwise tied to one machine.
 - `not declared`: the target has no marketplace block.
 - `unsupported`: the target has no known marketplace flow.
 

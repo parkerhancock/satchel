@@ -307,7 +307,7 @@ plugin entry while preserving unrelated plugin entries and unknown metadata.
 | `satchel generate <path>` | Generate enabled host manifests. |
 | `satchel check <path>` | Validate source and fail on stale generated files. |
 | `satchel check <path> --host` | Add non-mutating host validators when available. |
-| `satchel check <path> --release` | Require remote marketplace sources for release installability. |
+| `satchel check <path> --release` | Require package-relative or remote marketplace sources for release installability. |
 | `satchel check <path> --json` | Write machine-readable diagnostics with stable codes. |
 | `satchel smoke <path>` | Validate a regenerated temporary copy without mutating the source tree. |
 | `satchel smoke <path> --target <target>` | Validate only one enabled target in a clean temporary copy. |

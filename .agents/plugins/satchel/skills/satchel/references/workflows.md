@@ -40,7 +40,7 @@ satchel pack . --target claude --release
 
 `--host` runs non-mutating host validators where Satchel knows one. Targets
 without a known non-mutating validator use structural checks and emit warnings.
-`--release` requires remote marketplace sources for enabled installable targets.
+`--release` requires package-relative or remote marketplace sources for enabled installable targets.
 
 ## Make a Repo Recursive
 

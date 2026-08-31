@@ -40,8 +40,8 @@ integrations.
 | `SATCHEL_TARGET_NOT_APPLICABLE_TYPE` | `notApplicable` is present but is not a non-empty string. | Write a concise reason or remove the field. |
 | `SATCHEL_TARGET_NOT_APPLICABLE_ENABLED` | An enabled target is marked not applicable. | Disable the target or remove `notApplicable`. |
 | `SATCHEL_MARKETPLACE_MISSING` | `satchel check --release` found an enabled target with no marketplace block. | Add `targets.<target>.marketplace` or disable the target. |
-| `SATCHEL_MARKETPLACE_SOURCE_MISSING` | `satchel check --release` found a marketplace without a source. | Add a remote marketplace source. |
-| `SATCHEL_MARKETPLACE_LOCAL_SOURCE` | Marketplace source is local-only. | Use a remote GitHub repo, Git URL, or HTTP URL before release. |
+| `SATCHEL_MARKETPLACE_SOURCE_MISSING` | `satchel check --release` found a marketplace without a source. | Add a package-relative or remote marketplace source. |
+| `SATCHEL_MARKETPLACE_LOCAL_SOURCE` | Marketplace source is machine-local. | Use a package-relative path, GitHub repo, Git URL, or HTTP URL before release. |
 | `SATCHEL_MARKETPLACE_OWNER_MISSING` | A Claude or Copilot marketplace has no author metadata for its required owner. | Add `author` as a name string or object. |
 | `SATCHEL_COPILOT_MARKETPLACE_SOURCE_LEGACY` | A Copilot marketplace source uses the legacy `type` discriminator. | Rename `type` to `source`; Satchel normalizes it during generation. |
 | `SATCHEL_CHATGPT_RELEASE_FIELD_MISSING` | A required ChatGPT release metadata field is missing. | Add the named field under `targets.chatgpt.app`. |
