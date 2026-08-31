@@ -66,7 +66,7 @@ def _build_parser() -> argparse.ArgumentParser:
     check.add_argument(
         "--release",
         action="store_true",
-        help="require release-ready remote marketplace sources",
+        help="require release-ready package-relative or remote marketplace sources",
     )
     check.set_defaults(func=_cmd_check)
 
@@ -106,7 +106,7 @@ def _build_parser() -> argparse.ArgumentParser:
     pack.add_argument(
         "--release",
         action="store_true",
-        help="require release-ready remote marketplace sources before packing",
+        help="require release-ready package-relative or remote marketplace sources before packing",
     )
     pack.add_argument(
         "--host",

@@ -207,19 +207,20 @@ class BaseTargetAdapter:
 
         source_declared = "source" in marketplace
         source = marketplace.get("source")
-        if _marketplace_source_is_remote(source):
+        if _marketplace_source_is_release_installable(source):
             return diagnostics
         if not source_declared and not release:
             return diagnostics
 
         severity = "error" if release else "warning"
         message = (
-            f"{self.name} marketplace source is local-only; use a remote GitHub "
-            "or URL source for installable releases"
+            f"{self.name} marketplace source is machine-local; use a package-relative "
+            "path or remote GitHub/URL source for installable releases"
         )
         if not source_declared:
             message = (
-                f"{self.name} marketplace source is missing; release installs need a remote source"
+                f"{self.name} marketplace source is missing; release installs need a "
+                "package-relative or remote source"
             )
         code = (
             "SATCHEL_MARKETPLACE_SOURCE_MISSING"
@@ -252,7 +253,7 @@ class BaseTargetAdapter:
             root, data, marketplace
         ):
             return "incomplete (owner missing)"
-        if _marketplace_source_is_remote(marketplace.get("source")):
+        if _marketplace_source_is_release_installable(marketplace.get("source")):
             return "remote-ready"
         return "local-only"
 
@@ -594,15 +595,16 @@ def validate_relative_reference(
     )
 
 
-def _marketplace_source_is_remote(source: Any) -> bool:
+def _marketplace_source_is_release_installable(source: Any) -> bool:
     if isinstance(source, str):
-        return _remote_string(source)
+        return _remote_string(source) or _package_relative_string(source)
     if not isinstance(source, dict):
         return False
 
     kind = source.get("source") or source.get("type")
     if isinstance(kind, str) and kind.lower() == "local":
-        return False
+        path = source.get("path")
+        return isinstance(path, str) and _package_relative_string(path)
 
     for key in ("url", "git", "repositoryUrl"):
         value = source.get(key)
@@ -614,6 +616,14 @@ def _marketplace_source_is_remote(source: Any) -> bool:
         return True
 
     return False
+
+
+def _package_relative_string(value: str) -> bool:
+    stripped = value.strip()
+    if not stripped:
+        return False
+    path = Path(stripped)
+    return not path.is_absolute() and ".." not in path.parts
 
 
 def _remote_string(value: str) -> bool:
