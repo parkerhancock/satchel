@@ -182,6 +182,11 @@
           "description": "Set false to disable this target.",
           "default": true
         },
+        "notApplicable": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Reason an intentionally disabled target does not apply to this package. Requires enabled: false."
+        },
         "manifest": {
           "type": "string",
           "description": "Relative path for the generated target manifest."

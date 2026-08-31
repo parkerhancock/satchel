@@ -26,3 +26,5 @@ jobs:
       - run: uv run satchel pack . --target codex --release --output-dir /tmp/satchel-target-packs
       - run: uv run satchel pack . --target claude --release --output-dir /tmp/satchel-target-packs
       - run: uv run satchel pack . --target copilot --release --output-dir /tmp/satchel-target-packs
+      - run: uv run satchel pack . --target cowork --release --output-dir /tmp/satchel-target-packs
+      - run: uv run satchel pack . --target antigravity --release --output-dir /tmp/satchel-target-packs

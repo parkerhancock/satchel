@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 import json
+import re
 import uuid
 from pathlib import Path
 from typing import Any
 
-from satchel.core import Diagnostic, GeneratedFile, ManifestData, PortabilityFinding
-from satchel.manifest import get_component_path, get_target
+from satchel.core import Diagnostic, GeneratedFile, ManifestData, PortabilityFinding, SatchelError
+from satchel.manifest import get_component_path, get_target, resolve_under_root
 from satchel.targets.base import (
     BaseTargetAdapter,
     component_json_path,
@@ -59,15 +60,87 @@ class CoworkAdapter(BaseTargetAdapter):
             )
 
         developer = target.get("developer")
-        if developer is not None and not isinstance(developer, dict):
+        if not isinstance(developer, dict):
             diagnostics.append(
                 Diagnostic(
                     "error",
-                    "targets.cowork.developer must be a mapping",
+                    "targets.cowork.developer must be a mapping with required "
+                    "Microsoft 365 app metadata",
                     "satchel.yaml",
                     code="SATCHEL_TARGET_FIELD_TYPE",
                     target="cowork",
                     component="developer",
+                )
+            )
+        else:
+            diagnostics.extend(
+                _required_mapping_fields(
+                    developer,
+                    ("name", "websiteUrl", "privacyUrl", "termsOfUseUrl"),
+                    component="developer",
+                )
+            )
+
+        icons = target.get("icons")
+        if not isinstance(icons, dict):
+            diagnostics.append(
+                Diagnostic(
+                    "error",
+                    "targets.cowork.icons must be a mapping with outline and color paths",
+                    "satchel.yaml",
+                    code="SATCHEL_TARGET_FIELD_TYPE",
+                    target="cowork",
+                    component="icons",
+                )
+            )
+        else:
+            diagnostics.extend(
+                _required_mapping_fields(icons, ("outline", "color"), component="icons")
+            )
+            for field in ("outline", "color"):
+                raw_path = icons.get(field)
+                if not isinstance(raw_path, str) or not raw_path.strip():
+                    continue
+                try:
+                    icon_path = resolve_under_root(
+                        root, raw_path, label=f"targets.cowork.icons.{field}"
+                    )
+                except SatchelError as exc:
+                    diagnostics.append(
+                        Diagnostic(
+                            "error",
+                            str(exc),
+                            "satchel.yaml",
+                            code="SATCHEL_PATH_INVALID",
+                            target="cowork",
+                            component=field,
+                        )
+                    )
+                    continue
+                if not icon_path.is_file():
+                    diagnostics.append(
+                        Diagnostic(
+                            "error",
+                            f"targets.cowork.icons.{field} does not exist: {raw_path}",
+                            raw_path,
+                            code="SATCHEL_COMPONENT_PATH_MISSING",
+                            target="cowork",
+                            component=field,
+                        )
+                    )
+
+        accent_color = target.get("accentColor")
+        if not isinstance(accent_color, str) or not re.fullmatch(
+            r"#[0-9A-Fa-f]{6}", accent_color
+        ):
+            diagnostics.append(
+                Diagnostic(
+                    "error",
+                    "targets.cowork.accentColor must be a six-digit HTML hex color",
+                    "satchel.yaml",
+                    code="SATCHEL_COWORK_ACCENT_COLOR_INVALID",
+                    target="cowork",
+                    component="accentColor",
                 )
             )
 
@@ -139,6 +212,31 @@ class CoworkAdapter(BaseTargetAdapter):
             target="cowork",
             path=path,
         )
+
+        for field in ("developer", "icons"):
+            if not isinstance(manifest.get(field), dict) or not manifest[field]:
+                diagnostics.append(
+                    Diagnostic(
+                        "error",
+                        f"cowork output {field} must be a non-empty object",
+                        str(path),
+                        code="SATCHEL_OUTPUT_FIELD_MISSING",
+                        target="cowork",
+                        component=field,
+                    )
+                )
+        accent_color = manifest.get("accentColor")
+        if not isinstance(accent_color, str) or not accent_color:
+            diagnostics.append(
+                Diagnostic(
+                    "error",
+                    "cowork output accentColor must be a non-empty string",
+                    str(path),
+                    code="SATCHEL_OUTPUT_FIELD_MISSING",
+                    target="cowork",
+                    component="accentColor",
+                )
+            )
 
         name_block = manifest.get("name")
         description_block = manifest.get("description")
@@ -315,3 +413,24 @@ def _flag_non_remote_mcp_servers(root: Path, data: ManifestData) -> list[Diagnos
 
 def _is_https_url(value: str) -> bool:
     return value.startswith("https://")
+
+
+def _required_mapping_fields(
+    mapping: dict[str, Any], fields: tuple[str, ...], *, component: str
+) -> list[Diagnostic]:
+    diagnostics: list[Diagnostic] = []
+    for field in fields:
+        value = mapping.get(field)
+        if isinstance(value, str) and value.strip():
+            continue
+        diagnostics.append(
+            Diagnostic(
+                "error",
+                f"targets.cowork.{component}.{field} is required",
+                "satchel.yaml",
+                code="SATCHEL_COWORK_FIELD_MISSING",
+                target="cowork",
+                component=field,
+            )
+        )
+    return diagnostics

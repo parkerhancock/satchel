@@ -141,6 +141,8 @@ def test_pack_target_writes_target_archive(
 
     assert main(["init", str(package)]) == 0
     capsys.readouterr()
+    (package / "src").mkdir()
+    (package / "src/plugin.py").write_text("VALUE = 1\n", encoding="utf-8")
 
     assert main(["pack", str(package), "--target", "codex"]) == 0
     output = capsys.readouterr()
@@ -154,6 +156,7 @@ def test_pack_target_writes_target_archive(
 
     assert "satchel.yaml" in names
     assert "skills/example/SKILL.md" in names
+    assert "src/plugin.py" in names
     assert ".codex-plugin/plugin.json" in names
     assert ".claude-plugin/plugin.json" not in names
 

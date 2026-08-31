@@ -1,0 +1,30 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.28/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.28",
+  "id": "2a99b8d7-e7d5-5cfc-839c-1360a80ca21c",
+  "version": "0.4.0",
+  "name": {
+    "short": "Satchel",
+    "full": "Satchel"
+  },
+  "description": {
+    "short": "Build agent plugin manifests from one product-agnostic source package.",
+    "full": "Build agent plugin manifests from one product-agnostic source package."
+  },
+  "developer": {
+    "name": "Parker Hancock",
+    "websiteUrl": "https://github.com/parkerhancock/satchel",
+    "privacyUrl": "https://github.com/parkerhancock/satchel/blob/main/PRIVACY.md",
+    "termsOfUseUrl": "https://github.com/parkerhancock/satchel/blob/main/LICENSE"
+  },
+  "icons": {
+    "outline": "./assets/cowork-outline.png",
+    "color": "./assets/cowork-color.png"
+  },
+  "accentColor": "#e5a82f",
+  "agentSkills": [
+    {
+      "folder": "./skills"
+    }
+  ]
+}

@@ -27,7 +27,7 @@ as a direct string path. Paths must stay inside the package root.
 
 | Component | Expected Path | Portability |
 | --- | --- | --- |
-| `skills` | directory | Native in Codex, Claude, Copilot; copied for Antigravity. |
+| `skills` | directory | Native in Codex, Claude, Copilot, and Cowork; copied for Antigravity. |
 | `mcp` | JSON file | Emitted as `mcpServers` or copied to `mcp_config.json`. |
 | `hooks` | JSON file | Native or approximate depending on host event model. |
 | `agents` | directory | Native in Claude/Copilot; copied for Antigravity. |
@@ -42,6 +42,16 @@ frontmatter.
 ## Targets
 
 Targets live under `targets.<name>`. Set `enabled: false` to disable a target.
+When a target's distribution model does not apply to the package, add a
+non-empty `notApplicable` reason. Satchel reports that distinction separately
+from an ordinary disabled target and rejects `notApplicable` on enabled targets.
+
+```yaml
+targets:
+  chatgpt:
+    enabled: false
+    notApplicable: This package has no remote MCP service.
+```
 
 ### Codex
 
@@ -174,6 +184,15 @@ targets:
   cowork:
     enabled: true
     manifest: ./cowork/manifest.json
+    developer:
+      name: Example Team
+      websiteUrl: https://example.com
+      privacyUrl: https://example.com/privacy
+      termsOfUseUrl: https://example.com/terms
+    icons:
+      outline: ./assets/outline.png
+      color: ./assets/color.png
+    accentColor: "#e5a82f"
     connector:
       displayName: My Connector
       description: Public data research tools.
@@ -184,7 +203,9 @@ targets:
 Cowork generates a Microsoft 365 Unified App Manifest with `agentSkills` from
 the shared skills component and an optional `agentConnectors` entry. Cowork
 connectors require a remote HTTPS MCP endpoint; local `command`/`args` MCP
-servers cannot back this target.
+servers cannot back this target. The Microsoft 365 manifest requires developer
+metadata, 32x32 outline and 192x192 color PNG icons, and an accent color even
+when the package contains only skills.
 
 Set `targets.<target>.marketplace.patch: true` to preserve host-owned metadata
 in existing marketplace files while updating generated plugin fields. See

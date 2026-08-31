@@ -9,6 +9,7 @@ import yaml
 
 from satchel.generate import build_outputs, portability_report, stale_outputs, write_outputs
 from satchel.manifest import load_manifest, validate_manifest
+from satchel.targets import enabled_adapters
 
 
 def test_generates_codex_and_claude_manifests(tmp_path: Path) -> None:
@@ -199,6 +200,42 @@ def test_marketplace_report_marks_missing_owner_incomplete(tmp_path: Path) -> No
     report = portability_report(root, data)
     assert "  claude: incomplete (owner missing)" in report
     assert "  copilot: incomplete (owner missing)" in report
+
+
+def test_not_applicable_target_is_distinct_from_disabled(tmp_path: Path) -> None:
+    _write_package(tmp_path)
+    manifest_path = tmp_path / "satchel.yaml"
+    data = yaml.safe_load(manifest_path.read_text())
+    data["targets"]["chatgpt"] = {
+        "enabled": False,
+        "notApplicable": "This package has no remote MCP service.",
+    }
+    manifest_path.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
+
+    root, data = load_manifest(tmp_path)
+    diagnostics = validate_manifest(root, data)
+    assert [d for d in diagnostics if d.severity == "error"] == []
+
+    report = portability_report(root, data)
+    assert (
+        "  chatgpt: not applicable -> This package has no remote MCP service."
+        in report
+    )
+    assert "  chatgpt: not applicable" in report
+
+
+def test_not_applicable_target_must_be_disabled(tmp_path: Path) -> None:
+    _write_package(tmp_path, include_chatgpt=True)
+    manifest_path = tmp_path / "satchel.yaml"
+    data = yaml.safe_load(manifest_path.read_text())
+    data["targets"]["chatgpt"]["notApplicable"] = "No remote MCP service."
+    manifest_path.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
+
+    root, data = load_manifest(tmp_path)
+    diagnostics = validate_manifest(root, data)
+    assert [d.code for d in diagnostics if d.severity == "error"] == [
+        "SATCHEL_TARGET_NOT_APPLICABLE_ENABLED"
+    ]
 
 
 def test_claude_manifest_maps_custom_component_paths(tmp_path: Path) -> None:
@@ -571,6 +608,24 @@ def test_cowork_requires_https_connector_url(tmp_path: Path) -> None:
     assert "SATCHEL_COWORK_MCP_NOT_HTTPS" in codes
 
 
+def test_cowork_requires_microsoft_app_metadata(tmp_path: Path) -> None:
+    _write_package(tmp_path, include_cowork=True)
+    manifest_path = tmp_path / "satchel.yaml"
+    data = yaml.safe_load(manifest_path.read_text())
+    del data["targets"]["cowork"]["developer"]
+    del data["targets"]["cowork"]["icons"]
+    del data["targets"]["cowork"]["accentColor"]
+    manifest_path.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
+
+    root, data = load_manifest(tmp_path)
+    diagnostics = validate_manifest(root, data)
+    assert {d.component for d in diagnostics if d.severity == "error"} == {
+        "developer",
+        "icons",
+        "accentColor",
+    }
+
+
 def test_satchel_package_generated_outputs_are_fresh() -> None:
     package_root = Path(__file__).resolve().parents[1]
     root, data = load_manifest(package_root)
@@ -578,6 +633,31 @@ def test_satchel_package_generated_outputs_are_fresh() -> None:
     diagnostics = validate_manifest(root, data)
     assert [d for d in diagnostics if d.severity == "error"] == []
     assert stale_outputs(build_outputs(root, data)) == []
+
+
+def test_satchel_package_self_hosts_every_applicable_target() -> None:
+    package_root = Path(__file__).resolve().parents[1]
+    root, data = load_manifest(package_root)
+
+    assert {adapter.name for adapter in enabled_adapters(data)} == {
+        "codex",
+        "claude",
+        "copilot",
+        "antigravity",
+        "cowork",
+    }
+
+    cowork = json.loads((root / "cowork/manifest.json").read_text())
+    assert cowork["agentSkills"] == [{"folder": "./skills"}]
+    assert "agentConnectors" not in cowork
+    assert (root / ".agents/plugins/satchel/plugin.json").exists()
+    assert (root / ".agents/plugins/satchel/skills/satchel/SKILL.md").exists()
+
+    report = portability_report(root, data)
+    assert any(line.startswith("  cowork: native manifest") for line in report)
+    assert any(line.startswith("  antigravity: generated") for line in report)
+    assert any(line.startswith("  chatgpt: not applicable") for line in report)
+    assert any(line.startswith("  anthropic: not applicable") for line in report)
 
 
 def test_committed_examples_generated_outputs_are_fresh() -> None:
@@ -745,6 +825,15 @@ description: Example portable skill.
   cowork:
     enabled: true
     manifest: ./cowork/manifest.json
+    developer:
+      name: Example Team
+      websiteUrl: https://example.com
+      privacyUrl: https://example.com/privacy
+      termsOfUseUrl: https://example.com/terms
+    icons:
+      outline: ./assets/outline.png
+      color: ./assets/color.png
+    accentColor: "#e5a82f"
     connector:
       displayName: Demo Connector
       description: Public data research connector.
@@ -753,6 +842,10 @@ description: Example portable skill.
         if include_cowork
         else ""
     )
+    if include_cowork:
+        (root / "assets").mkdir()
+        (root / "assets/outline.png").write_bytes(b"outline")
+        (root / "assets/color.png").write_bytes(b"color")
     (root / "satchel.yaml").write_text(
         f"""schema: satchel/v0
 name: demo-plugin

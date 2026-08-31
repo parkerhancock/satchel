@@ -51,6 +51,7 @@ Product-agnostic source manifest for Satchel agent plugin packages.
 | Field | Required | Type | Description |
 | --- | --- | --- | --- |
 | `enabled` | no | `boolean` | Set false to disable this target. Default: `true`. |
+| `notApplicable` | no | `string` | Reason an intentionally disabled target does not apply to this package. Requires enabled: false. |
 | `manifest` | no | `string` | Relative path for the generated target manifest. |
 | `rootManifest` | no | `string` | Optional extra root manifest path used by the Copilot target. |
 | `output` | no | `string` | Output directory for targets that generate local package layouts. |

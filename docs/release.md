@@ -24,7 +24,13 @@ uv run satchel smoke . --host
 uv run satchel pack . --target codex --release
 uv run satchel pack . --target claude --release
 uv run satchel pack . --target copilot --release
+uv run satchel pack . --target cowork --release
+uv run satchel pack . --target antigravity --release
 ```
+
+The Cowork archive contains the shared skill without an MCP connector. The
+Antigravity archive is experimental and should be tested against the current
+host before publication.
 
 Review the generated root outputs:
 

@@ -98,6 +98,18 @@ Antigravity support is experimental. The adapter can generate a local package
 layout under `.agents/plugins/`, but install and marketplace behavior should be
 verified against the current Antigravity CLI or IDE before relying on it.
 
+### Self-hosting matrix
+
+Satchel's own `satchel.yaml` packages the Satchel skill and code for Codex,
+Claude Code, GitHub Copilot CLI, Microsoft 365 Copilot Cowork, and experimental
+Antigravity. Cowork is a skill-only package and does not declare an MCP
+connector.
+
+The ChatGPT App and Anthropic Connectors Directory channels are explicitly
+not applicable to Satchel itself because those channels publish remote MCP
+services rather than repository-backed skills. The Codex and Claude Code
+targets are the corresponding file-based Satchel packages.
+
 ## Features
 
 | Feature | What it does |

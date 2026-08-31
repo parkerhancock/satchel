@@ -83,6 +83,28 @@ targets:
       category: Productivity
 
   antigravity:
-    enabled: false
+    enabled: true
     experimental: true
     output: ./.agents/plugins/satchel
+
+  cowork:
+    enabled: true
+    manifest: ./cowork/manifest.json
+    displayName: Satchel
+    developer:
+      name: Parker Hancock
+      websiteUrl: https://github.com/parkerhancock/satchel
+      privacyUrl: https://github.com/parkerhancock/satchel/blob/main/PRIVACY.md
+      termsOfUseUrl: https://github.com/parkerhancock/satchel/blob/main/LICENSE
+    icons:
+      outline: ./assets/cowork-outline.png
+      color: ./assets/cowork-color.png
+    accentColor: "#e5a82f"
+
+  chatgpt:
+    enabled: false
+    notApplicable: Satchel has no remote MCP service; use the Codex plugin for repository-backed Satchel workflows.
+
+  anthropic:
+    enabled: false
+    notApplicable: Satchel has no remote MCP service; use the Claude Code plugin for repository-backed Satchel workflows.

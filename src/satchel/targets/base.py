@@ -49,11 +49,36 @@ class BaseTargetAdapter:
         return self.enabled_by_default
 
     def validate(self, root: Path, data: ManifestData) -> list[Diagnostic]:
-        if not self.enabled(data):
-            return []
-
         diagnostics: list[Diagnostic] = []
         target = get_target(data, self.name)
+        not_applicable = target.get("notApplicable")
+        if not_applicable is not None:
+            if not isinstance(not_applicable, str) or not not_applicable.strip():
+                diagnostics.append(
+                    Diagnostic(
+                        "error",
+                        f"targets.{self.name}.notApplicable must be a non-empty string",
+                        "satchel.yaml",
+                        code="SATCHEL_TARGET_NOT_APPLICABLE_TYPE",
+                        target=self.name,
+                        component="notApplicable",
+                    )
+                )
+            elif self.enabled(data):
+                diagnostics.append(
+                    Diagnostic(
+                        "error",
+                        f"targets.{self.name}.notApplicable requires enabled: false",
+                        "satchel.yaml",
+                        code="SATCHEL_TARGET_NOT_APPLICABLE_ENABLED",
+                        target=self.name,
+                        component="notApplicable",
+                    )
+                )
+
+        if not self.enabled(data):
+            return diagnostics
+
         if self.default_manifest_path is not None:
             diagnostics.extend(
                 self._validate_path_field(
@@ -103,6 +128,16 @@ class BaseTargetAdapter:
 
     def report(self, root: Path, data: ManifestData) -> list[PortabilityFinding]:
         if not self.enabled(data):
+            reason = self._not_applicable_reason(data)
+            if reason:
+                return [
+                    PortabilityFinding(
+                        self.name,
+                        "target",
+                        "not applicable",
+                        reason,
+                    )
+                ]
             return [
                 PortabilityFinding(
                     self.name,
@@ -204,6 +239,8 @@ class BaseTargetAdapter:
 
     def marketplace_installability(self, root: Path, data: ManifestData) -> str:
         if not self.enabled(data):
+            if self._not_applicable_reason(data):
+                return "not applicable"
             return "disabled"
         if not self.supports_marketplace:
             return "unsupported"
@@ -218,6 +255,12 @@ class BaseTargetAdapter:
         if _marketplace_source_is_remote(marketplace.get("source")):
             return "remote-ready"
         return "local-only"
+
+    def _not_applicable_reason(self, data: ManifestData) -> str | None:
+        value = get_target(data, self.name).get("notApplicable")
+        if isinstance(value, str) and value.strip():
+            return value.strip()
+        return None
 
     def _marketplace_owner_available(
         self, root: Path, data: ManifestData, marketplace: dict[str, Any]
